@@ -1,4 +1,4 @@
-package com.example.lab2again
+package com.example.lab2again.data.timezones
 
 interface TimeZoneHelper {
     fun getTimeZoneStrings(): List<String>
