@@ -32,9 +32,28 @@ import org.jetbrains.compose.resources.stringResource
 import com.example.lab2again.ui.screens.buttons.ButtonsScreen
 import com.example.lab2again.ui.screens.checkboxes.CheckboxesScreen
 import com.example.lab2again.ui.screens.main.MainScreen
+import com.example.lab2again.ui.screens.chips.ChipsScreen
+import com.example.lab2again.ui.screens.datepicker.DatePickerScreen
+import com.example.lab2again.ui.screens.dialog.DialogScreen
+import com.example.lab2again.ui.screens.divider.DividerScreen
+import com.example.lab2again.ui.screens.progress.ProgressScreen
+import com.example.lab2again.ui.screens.radio.RadioScreen
+import com.example.lab2again.ui.screens.switch.SwitchScreen
+import com.example.lab2again.ui.screens.timepicker.TimePickerScreen
 
 enum class AppScreen(val title: StringResource) {
-    Main(title = Res.string.main), Buttons(title = Res.string.buttons), Checkboxes(title = Res.string.checkboxes),
+    Main(title = Res.string.main),
+    Buttons(title = Res.string.buttons),
+    Checkboxes(title = Res.string.checkboxes),
+
+    Chips(title = Res.string.main),
+    DatePicker(title = Res.string.main),
+    Dialog(title = Res.string.main),
+    Divider(title = Res.string.main),
+    Progress(title = Res.string.main),
+    Radio(title = Res.string.main),
+    Switch(title = Res.string.main),
+    TimePicker(title = Res.string.main),
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -93,8 +112,16 @@ fun AppNavigation() {
         ) {
             composable(route = AppScreen.Main.name) {
                 MainScreen(
-                    onButtonsClicked = {navController.navigate(AppScreen.Buttons.name)},
-                    onCheckboxesClicked = {navController.navigate(AppScreen.Checkboxes.name)},
+                    onButtonsClicked = { navController.navigate(AppScreen.Buttons.name) },
+                    onCheckboxesClicked = { navController.navigate(AppScreen.Checkboxes.name) },
+                    onChipsClicked = { navController.navigate(AppScreen.Chips.name) },
+                    onDatePickerClicked = { navController.navigate(AppScreen.DatePicker.name) },
+                    onDialogClicked = { navController.navigate(AppScreen.Dialog.name) },
+                    onDividerClicked = { navController.navigate(AppScreen.Divider.name) },
+                    onProgressClicked = { navController.navigate(AppScreen.Progress.name) },
+                    onRadioClicked = { navController.navigate(AppScreen.Radio.name) },
+                    onSwitchClicked = { navController.navigate(AppScreen.Switch.name) },
+                    onTimePickerClicked = { navController.navigate(AppScreen.TimePicker.name) },
                 )
             }
             composable(route = AppScreen.Buttons.name) {
@@ -112,6 +139,37 @@ fun AppNavigation() {
             }
             composable(route = AppScreen.Checkboxes.name) {
                 CheckboxesScreen()
+            }
+            composable(route = AppScreen.Chips.name) {
+                ChipsScreen()
+            }
+
+            composable(route = AppScreen.DatePicker.name) {
+                DatePickerScreen()
+            }
+
+            composable(route = AppScreen.Dialog.name) {
+                DialogScreen()
+            }
+
+            composable(route = AppScreen.Divider.name) {
+                DividerScreen()
+            }
+
+            composable(route = AppScreen.Progress.name) {
+                ProgressScreen()
+            }
+
+            composable(route = AppScreen.Radio.name) {
+                RadioScreen()
+            }
+
+            composable(route = AppScreen.Switch.name) {
+                SwitchScreen()
+            }
+
+            composable(route = AppScreen.TimePicker.name) {
+                TimePickerScreen()
             }
         }
     }

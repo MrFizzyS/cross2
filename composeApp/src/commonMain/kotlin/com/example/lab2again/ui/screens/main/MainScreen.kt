@@ -19,6 +19,14 @@ import org.jetbrains.compose.resources.stringResource
 fun MainScreen(
     onButtonsClicked: () -> Unit,
     onCheckboxesClicked: () -> Unit,
+    onChipsClicked: () -> Unit,
+    onDatePickerClicked: () -> Unit,
+    onDialogClicked: () -> Unit,
+    onDividerClicked: () -> Unit,
+    onProgressClicked: () -> Unit,
+    onRadioClicked: () -> Unit,
+    onSwitchClicked: () -> Unit,
+    onTimePickerClicked: () -> Unit,
 ) {
 
     Column(
@@ -43,6 +51,61 @@ fun MainScreen(
         ) {
             Text(stringResource(Res.string.checkboxes))
         }
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = { onChipsClicked() }
+        ) {
+            Text("Chips")
+        }
+
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = { onDatePickerClicked() }
+        ) {
+            Text("DatePicker")
+        }
+
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = { onDialogClicked() }
+        ) {
+            Text("Dialog")
+        }
+
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = { onDividerClicked() }
+        ) {
+            Text("Divider")
+        }
+
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = { onProgressClicked() }
+        ) {
+            Text("Progress")
+        }
+
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = { onRadioClicked() }
+        ) {
+            Text("Radio")
+        }
+
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = { onSwitchClicked() }
+        ) {
+            Text("Switch")
+        }
+
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = { onTimePickerClicked() }
+        ) {
+            Text("TimePicker")
+        }
     }
 }
 
@@ -51,5 +114,14 @@ fun MainScreen(
 private fun MainScreenPreview() {
     MainScreen(
         {},
-    ) {}
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+    )
 }
