@@ -16,7 +16,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     listOf(
         iosArm64(),
         iosSimulatorArm64()
@@ -26,20 +26,20 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     jvm()
-    
+
     js {
         browser()
         binaries.executable()
     }
-    
+
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         browser()
         binaries.executable()
     }
-    
+
     sourceSets {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
@@ -58,7 +58,6 @@ kotlin {
             implementation(libs.datetime)
             implementation(libs.navigation.compose)
             implementation(libs.material.icons.core)
-            implementation(projects.shared)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

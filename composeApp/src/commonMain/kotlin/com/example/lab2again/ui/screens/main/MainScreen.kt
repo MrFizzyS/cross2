@@ -12,13 +12,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import lab2again.composeapp.generated.resources.Res
 import lab2again.composeapp.generated.resources.buttons
-import lab2again.composeapp.generated.resources.checkboxes
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MainScreen(
     onButtonsClicked: () -> Unit,
-    onCheckboxesClicked: () -> Unit,
 ) {
 
     Column(
@@ -34,22 +32,11 @@ fun MainScreen(
         ) {
             Text(stringResource(Res.string.buttons))
         }
-
-        Button(
-            modifier = Modifier.fillMaxWidth(),
-            onClick = {
-                onCheckboxesClicked()
-            }
-        ) {
-            Text(stringResource(Res.string.checkboxes))
-        }
     }
 }
 
 @Preview
 @Composable
 private fun MainScreenPreview() {
-    MainScreen(
-        {},
-    ) {}
+    MainScreen {}
 }

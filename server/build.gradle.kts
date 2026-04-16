@@ -1,23 +1,114 @@
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
-    alias(libs.plugins.kotlinJvm)
-    alias(libs.plugins.ktor)
-    application
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.composeHotReload)
 }
 
-group = "com.example.lab2again"
-version = "1.0.0"
-application {
-    mainClass.set("com.example.lab2again.ApplicationKt")
-    
-    val isDevelopment: Boolean = project.ext.has("development")
-    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
+kotlin {
+    androidTarget {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
+    }
+
+    listOf(
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "ComposeApp"
+            isStatic = true
+        }
+    }
+
+    jvm()
+
+    js {
+        browser()
+        binaries.executable()
+    }
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+        binaries.executable()
+    }
+
+    sourceSets {
+        androidMain.dependencies {
+            implementation(libs.compose.uiToolingPreview)
+            implementation(libs.androidx.activity.compose)
+        }
+        commonMain.dependencies {
+            implementation(libs.compose.runtime)
+            implementation(libs.compose.foundation)
+            implementation(libs.compose.material3.expressive)
+            implementation(libs.compose.ui)
+            implementation(libs.compose.components.resources)
+            implementation(libs.compose.uiToolingPreview)
+            implementation(libs.androidx.lifecycle.viewmodelCompose)
+            implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(libs.kermit)
+            implementation(libs.datetime)
+            implementation(libs.navigation.compose)
+            implementation(libs.material.icons.core)
+            implementation(projects.shared)
+        }
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+        }
+        jvmMain.dependencies {
+            implementation(compose.desktop.currentOs)
+            implementation(libs.kotlinx.coroutinesSwing)
+        }
+    }
+}
+
+android {
+    namespace = "com.example.lab2again"
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
+
+    defaultConfig {
+        applicationId = "com.example.lab2again"
+        minSdk = libs.versions.android.minSdk.get().toInt()
+        targetSdk = libs.versions.android.targetSdk.get().toInt()
+        versionCode = 1
+        versionName = "1.0"
+    }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = false
+        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
 }
 
 dependencies {
-    implementation(projects.shared)
-    implementation(libs.logback)
-    implementation(libs.ktor.serverCore)
-    implementation(libs.ktor.serverNetty)
-    testImplementation(libs.ktor.serverTestHost)
-    testImplementation(libs.kotlin.testJunit)
+    debugImplementation(libs.compose.uiTooling)
+}
+
+compose.desktop {
+    application {
+        mainClass = "com.example.lab2again.MainKt"
+
+        nativeDistributions {
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            packageName = "com.example.lab2again"
+            packageVersion = "1.0.0"
+        }
+    }
 }
