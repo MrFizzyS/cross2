@@ -7,11 +7,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.lab2again.ui.theme.AppTheme
+import kotlinx.datetime.*
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatePickerScreen() {
 
-    var selectedDate by remember { mutableStateOf("No date selected") }
+    var showPicker by remember { mutableStateOf(false) }
+    var selectedDateText by remember { mutableStateOf("No date selected") }
+
+    val datePickerState = rememberDatePickerState()
 
     Column(
         modifier = Modifier
@@ -19,12 +24,41 @@ fun DatePickerScreen() {
             .padding(16.dp)
     ) {
 
-        Text(selectedDate)
+        Text(selectedDateText)
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {
-            selectedDate = "2026-04-09" // просто приклад
+            showPicker = true
         }) {
             Text("Pick Date")
+        }
+    }
+
+    if (showPicker) {
+        DatePickerDialog(
+            onDismissRequest = { showPicker = false },
+            confirmButton = {
+                TextButton(onClick = {
+                    val millis = datePickerState.selectedDateMillis
+                    if (millis != null) {
+                        val date = Instant.fromEpochMilliseconds(millis)
+                            .toLocalDateTime(TimeZone.currentSystemDefault())
+                            .date
+                        selectedDateText = date.toString()
+                    }
+                    showPicker = false
+                }) {
+                    Text("OK")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showPicker = false }) {
+                    Text("Cancel")
+                }
+            }
+        ) {
+            DatePicker(state = datePickerState)
         }
     }
 }
